@@ -24,7 +24,7 @@ const populatePlatforms = () => {
 
     // if the platform would intersect the wall, position it in the opposite direction
     let safePlatformX = unsafePlatformX
-    if (unsafePlatformX < -OUT_OF_BOUNDS) safePlatformX = previousPlatformX - offset
+    if (unsafePlatformX < -OUT_OF_BOUNDS + WALL_THICKNESS) safePlatformX = previousPlatformX - offset
     else if (unsafePlatformX + PLATFORM_WIDTH > OUT_OF_BOUNDS) safePlatformX = previousPlatformX - offset
     
     // add the platform to the array
@@ -42,8 +42,8 @@ const platformCheck = function (yPosition) {
   return platforms.find(platform => (
     yPosition <= platform.y &&
     yPosition >= platform.y - 5 &&
-    xPosition >= 475 - platform.x &&
-    xPosition <= 675 - platform.x
+    xPosition > platform.x - SHOE_WIDTH &&
+    xPosition < platform.x + PLATFORM_WIDTH + SHOE_WIDTH
   ))
 }
 
