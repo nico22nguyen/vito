@@ -1,3 +1,5 @@
+const VIRTUAL_Y_0 = SCREEN_HEIGHT - GROUND_THICKNESS
+
 const drawClouds = function (xPos, yPos, context) {
 	for (let i = -10000; i < 10000; i += 1000) {
 		context.fillStyle = 'white'
@@ -14,10 +16,11 @@ const drawClouds = function (xPos, yPos, context) {
 }
 
 const drawPlats = function (xPos, yPos, context) {
-	for (let i = 0; i < 50; i++) {
-		context.fillStyle = PLATFORM_COLOR
-		context.fillRect(xPos + platforms[i].x, SCREEN_HEIGHT - GROUND_THICKNESS - platforms[i].y + yPos, 200, 30)
-	}
+  platforms.forEach((platform, i) => {
+    const platform_color_index = i < 45 ? Math.floor(i / 10) : platforms.length
+    context.fillStyle = PLATFORM_COLOR_SCHEDULE[platform_color_index]
+		context.fillRect(xPos + platform.x, VIRTUAL_Y_0 - platform.y + yPos, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+  })
 }
 
 const drawBackground = function (xPos, yPos, context) {
@@ -28,19 +31,19 @@ const drawBackground = function (xPos, yPos, context) {
 
 	//ground
 	context.fillStyle = GROUND_COLOR
-	context.fillRect(xPos - 10000, SCREEN_HEIGHT - GROUND_THICKNESS + yPos, 20000, 200)
+	context.fillRect(xPos - 10000, VIRTUAL_Y_0 + yPos, 20000, 200)
 
 	//walls
 	context.fillStyle = 'grey'
-	context.fillRect(xPos + 5715, 0, 400, yPos + 300)
-	context.fillRect(xPos - 5715, 0, 400, yPos + 300)
+	context.fillRect(xPos + OUT_OF_BOUNDS, 0, 400, yPos + 300)
+	context.fillRect(xPos - OUT_OF_BOUNDS, 0, 400, yPos + 300)
 
 	//platforms
 	drawPlats(xPos, yPos, context)
 }
 
 const drawVito = function (x, y, unitDirection, context) {
-  y = SCREEN_HEIGHT - GROUND_THICKNESS - y
+  y = VIRTUAL_Y_0 - y
   /**
    * This function works by taking the "center of mass" of vito's body parts,
    * and reflecting them by an offset depending on the direction
