@@ -66,7 +66,7 @@ const adjustX = () => {
   xPosition += X_VELOCITY * xVelocityMultiplier
 }
 
-const tick = function (context) {
+const tick = (context) => {
   adjustY()
   adjustX()
 
@@ -82,8 +82,8 @@ const run = () => {
 
   const context = canvas.getContext('2d')
 
-  document.addEventListener('keydown', keysPressed)
-  document.addEventListener('keyup', keysReleased)
+  document.addEventListener('keydown', handleKeyDown)
+  document.addEventListener('keyup', handleKeyUp)
   
   populatePlatforms()
 

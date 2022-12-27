@@ -1,4 +1,4 @@
-const keysPressed = function (event) {
+const handleKeyDown = (event) => {
   const direction = KEYCODE_TO_DIRECTION[event.keyCode]
   if (!direction) return
   if (event.repeat) return
@@ -15,7 +15,7 @@ const keysPressed = function (event) {
 
 }
 
-const keysReleased = function (event) {
+const handleKeyUp = (event) => {
   const direction = KEYCODE_TO_DIRECTION[event.keyCode]
   if (!direction) return
 	keys[direction] = false

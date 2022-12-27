@@ -41,7 +41,7 @@ const xIntersectingPlatform = (x, platform) => {
 }
 
 // returns intersecting platform or null if no platform is found
-const platformCheck = function (xPosition, yPosition) {
+const platformCheck = (xPosition, yPosition) => {
   if (yPosition <= 0) return { x: undefined, y: 0 }
 
   return platforms.find(platform => (
