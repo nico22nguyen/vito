@@ -3,7 +3,7 @@ const keys = {}
 const platforms = []
 let xVelocityMultiplier = 1
 let yVelocity = 0
-let xPosition = 675
+let xPosition = 0
 let yPosition = 0
 let direction = 'RIGHT'
 
@@ -50,18 +50,28 @@ const adjustX = () => {
   // "do nothing" cases
   if (keys['RIGHT'] && keys['LEFT']) return // both pressed
   if (!keys['RIGHT'] && !keys['LEFT']) return // none pressed
-	if (keys['LEFT'] && xPosition > OUT_OF_BOUNDS) return // want to go right, but at wall
-	if (keys['RIGHT'] && xPosition < -OUT_OF_BOUNDS) return // want to go left, but at wall
+ 
+  // want to go left, but at wall
+	if (keys['LEFT'] && xPosition < -OUT_OF_BOUNDS + HAT_JUT + WALL_THICKNESS + X_VELOCITY) {
+    xPosition = -OUT_OF_BOUNDS + WALL_THICKNESS + HAT_JUT
+    return
+  }
 
-  // background moves in the opposite direction of the player
-  xPosition -= X_VELOCITY * xVelocityMultiplier
+  // want to go right, but at wall
+	if (keys['RIGHT'] && xPosition > OUT_OF_BOUNDS - HAT_JUT - X_VELOCITY) {
+    xPosition = OUT_OF_BOUNDS - HAT_JUT
+    return
+  }
+
+  xPosition += X_VELOCITY * xVelocityMultiplier
 }
 
 const tick = function (context) {
   adjustY()
   adjustX()
 
-	drawBackground(xPosition, yPosition, context)
+  // background moves in the opposite direction of vito, hence -x
+	drawBackground(-xPosition, yPosition, context)
 	drawVito(SCREEN_WIDTH / 2, 0, xVelocityMultiplier, context)
 }
 
