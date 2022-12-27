@@ -16,7 +16,7 @@ const adjustY = () => {
 	}
   
   // only apply gravity if vito is above the ground
-	yVelocity += GRAVITY_FORCE
+	yVelocity += Math.min(GRAVITY_FORCE, MAX_FALL_SPEED)
 
   // if vito is moving upwards, no platform logic needed
   if (yVelocity > 0) {
