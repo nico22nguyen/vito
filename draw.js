@@ -1,4 +1,5 @@
 const VIRTUAL_Y_0 = SCREEN_HEIGHT - GROUND_THICKNESS
+const VIRTUAL_X_0 = SCREEN_WIDTH / 2
 
 const drawClouds = function (xPos, yPos, context) {
 	for (let i = -10000; i < 10000; i += 1000) {
@@ -19,7 +20,7 @@ const drawPlats = function (xPos, yPos, context) {
   platforms.forEach((platform, i) => {
     const platform_color_index = i < 45 ? Math.floor(i / 10) : platforms.length
     context.fillStyle = PLATFORM_COLOR_SCHEDULE[platform_color_index]
-		context.fillRect(xPos + platform.x, VIRTUAL_Y_0 - platform.y + yPos, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+		context.fillRect(xPos + platform.x + VIRTUAL_X_0, VIRTUAL_Y_0 - platform.y + yPos, PLATFORM_WIDTH, PLATFORM_HEIGHT)
   })
 }
 
@@ -35,20 +36,21 @@ const drawBackground = function (xPos, yPos, context) {
 
 	//walls
 	context.fillStyle = 'grey'
-	context.fillRect(xPos + OUT_OF_BOUNDS, 0, 400, yPos + 300)
-	context.fillRect(xPos - OUT_OF_BOUNDS, 0, 400, yPos + 300)
+	context.fillRect(xPos + OUT_OF_BOUNDS + VIRTUAL_X_0, 0, WALL_THICKNESS, yPos + VIRTUAL_Y_0)
+	context.fillRect(xPos - OUT_OF_BOUNDS + VIRTUAL_X_0, 0, WALL_THICKNESS, yPos + VIRTUAL_Y_0)
 
 	//platforms
 	drawPlats(xPos, yPos, context)
 }
 
+/**
+ * IMPORTANT**: vito is drawn from the bottom center, between his shoes
+ * This function works by taking the "center of mass" of vito's body parts,
+ * and reflecting them by an offset depending on the direction
+ */
 const drawVito = function (x, y, unitDirection, context) {
   y = VIRTUAL_Y_0 - y
-  /**
-   * This function works by taking the "center of mass" of vito's body parts,
-   * and reflecting them by an offset depending on the direction
-   */
-
+  
 	//body
 	context.fillStyle = 'red'
 	context.fillRect(x - 20, y - 92.5, 40, 60)
@@ -64,7 +66,7 @@ const drawVito = function (x, y, unitDirection, context) {
 	//button
 	context.fillStyle = OVERALL_BUTTON_COLOR
 	context.beginPath()
-	context.arc(x + 12.5 * unitDirection, y -60, 5, 0, 2 * Math.PI)
+	context.arc(x + 12.5 * unitDirection, y - 60, 5, 0, 2 * Math.PI)
 	context.fill()
 
 	//head
@@ -83,8 +85,9 @@ const drawVito = function (x, y, unitDirection, context) {
 	//shoes
   const SHOE_CENTER = -10
 	context.fillStyle = SHOE_COLOR
-	context.fillRect(x + SHOE_CENTER + 10 * -unitDirection, y - 7.5, 20, 7.5)
-	context.fillRect(x + SHOE_CENTER + 15 * unitDirection, y - 7.5, 20, 7.5)
+	context.fillRect(x + SHOE_CENTER + 10 * -unitDirection, y - 7.5, SHOE_WIDTH, 7.5)
+	context.fillRect(x + SHOE_CENTER + 15 * unitDirection, y - 7.5, SHOE_WIDTH, 7.5)
+
 	//arm
   ARM_CENTER = -2.5
 	context.fillStyle = 'red'
