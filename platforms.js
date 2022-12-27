@@ -35,15 +35,19 @@ const populatePlatforms = () => {
   }
 }
 
+const xIntersectingPlatform = (x, platform) => {
+  if (!platform) return false
+  return x > platform.x - SHOE_WIDTH && x < platform.x + PLATFORM_WIDTH + SHOE_WIDTH
+}
+
 // returns intersecting platform or null if no platform is found
-const platformCheck = function (yPosition) {
+const platformCheck = function (xPosition, yPosition) {
   if (yPosition <= 0) return { x: undefined, y: 0 }
 
   return platforms.find(platform => (
     yPosition <= platform.y &&
     yPosition >= platform.y - 5 &&
-    xPosition > platform.x - SHOE_WIDTH &&
-    xPosition < platform.x + PLATFORM_WIDTH + SHOE_WIDTH
+    xIntersectingPlatform(xPosition, platform)
   ))
 }
 

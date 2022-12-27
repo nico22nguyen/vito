@@ -25,7 +25,7 @@ const adjustY = () => {
   }
 
   // If vito is touching a platform, stop y velocity or jump if key is pressed
-  const intersectingPlatform = platformCheck(yPosition)
+  const intersectingPlatform = platformCheck(xPosition, yPosition)
   if (intersectingPlatform) {
     yVelocity = keys['UP'] ? JUMP_POWER : 0
     yPosition = intersectingPlatform.y
@@ -36,7 +36,7 @@ const adjustY = () => {
   const nextPlatform = getNextPlatform(yPosition)
   const nextPosition = yPosition + yVelocity
 
-  if (nextPosition <= 0 || (nextPlatform && nextPosition <= nextPlatform.y && xPosition >= 475 - nextPlatform.x && xPosition <= 675 - nextPlatform.x))  {
+  if (nextPosition <= 0 || (nextPosition <= nextPlatform?.y && xIntersectingPlatform(xPosition, nextPlatform))) {
     yVelocity = keys['UP'] ? JUMP_POWER : 0
     yPosition = nextPlatform.y
     return
