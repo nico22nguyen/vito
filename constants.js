@@ -1,12 +1,12 @@
-// colors
+/* colors */
 const OVERALL_COLOR = '#1560bd'
 const OVERALL_BUTTON_COLOR = '#ffd700'
 const SHOE_COLOR = '#663300'
-const PLATFORM_COLOR_SCHEDULE = ['#ffd700', '#ff0000', '#00ff00', '#0000ff', '#ff00ff', '#00ffff']
+const PLATFORM_COLOR_SCHEDULE = ['#00ff00', '#ffd700', '#00ffff', '#ff00ff', '#ff0000']
 const SKY_COLOR = '#7ec0ee'
 const GROUND_COLOR = '#7cfc00'
 
-// game constants
+/* game */
 const SCREEN_WIDTH = 1350
 const SCREEN_HEIGHT = 600
 const FPS = 40
@@ -22,7 +22,12 @@ const KEYCODE_TO_DIRECTION = {
   32: 'UP', // SPACE
 }
 
-// platform constants
+/* clouds */
+const CLOUD_SPACING_X = 1000
+const CLOUD_SPACING_Y = 600
+const CLOUD_START = 400
+
+/* platforms */
 const PLATFORM_WIDTH = 200
 const PLATFORM_HEIGHT = 30
 const PLATFORM_SPACING_Y = 275
@@ -34,7 +39,7 @@ const MAX_PLATFORM_SPACING_X_SOFTENER = 25
 const NUM_PLATFORMS = 50
 const PLATFORMS_PER_LEVEL = 10
 
-// vito constants
+/* vito */
 const JUMP_POWER = 25
 const X_VELOCITY = 10
 const SHOE_WIDTH = 20 // for platform detection
