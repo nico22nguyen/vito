@@ -1,6 +1,7 @@
 // game variables
 const keys = {}
 const platforms = []
+const cloudLevels = []
 let xVelocityMultiplier = 1
 let yVelocity = 0
 let xPosition = 0
@@ -72,6 +73,7 @@ const tick = (context) => {
 
   // background moves in the opposite direction of vito, hence -x
 	drawBackground(-xPosition, yPosition, context)
+  updateCloudPositions()
 	drawVito(SCREEN_WIDTH / 2, 0, xVelocityMultiplier, context)
 }
 
@@ -86,6 +88,7 @@ const run = () => {
   document.addEventListener('keyup', handleKeyUp)
   
   populatePlatforms()
+  generateClouds()
 
   const _tick = () => tick(context)
   const game = setInterval(_tick, 1000 / FPS)

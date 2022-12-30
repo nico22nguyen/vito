@@ -2,7 +2,7 @@
 const OVERALL_COLOR = '#1560bd'
 const OVERALL_BUTTON_COLOR = '#ffd700'
 const SHOE_COLOR = '#663300'
-const PLATFORM_COLOR_SCHEDULE = ['#00ff00', '#ffd700', '#00ffff', '#ff00ff', '#ff0000']
+const PLATFORM_COLOR_SCHEDULE = ['#00ff00', '#ffd700', '#00ffff', '#ff00ff', '#turquoise', 'red']
 const SKY_COLOR = '#7ec0ee'
 const GROUND_COLOR = '#7cfc00'
 
@@ -23,9 +23,14 @@ const KEYCODE_TO_DIRECTION = {
 }
 
 /* clouds */
-const CLOUD_SPACING_X = 1000
-const CLOUD_SPACING_Y = 600
+const CLOUD_SPACING_X_MAX = 1000
+const CLOUD_SPACING_X_MIN = 500
+const CLOUD_INTER_LEVEL_SPACING = 600
+const CLOUD_LEVEL_Y_VARIATION = 100
+const CLOUD_INTRA_LEVEL_SPACING_MAX = 200
+const CLOUD_MAX_VELOCITY = 8
 const CLOUD_START = 400
+const NUM_CLOUD_LEVELS = 40
 
 /* platforms */
 const PLATFORM_WIDTH = 200
