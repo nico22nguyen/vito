@@ -1,3 +1,15 @@
+/** 
+ * TODO:
+ * - add score at top of screen (increments after reaching top of level)
+ * - add portal on the top platform (end of level, increment score, regenerate platforms/clouds)
+ * - sky color darkens progressively each level, draw stars starting at a dark enough level (e.g. 5)
+ * - kill vito if he falls more than N (5?) platforms (reset score, regenerate platforms/clouds)
+ * - make the canvas scale-able and match the window size
+ * 
+ * TRY OUT: 
+ * - reduced map size on the x axis (e.g. 800-1000 units)
+*/
+
 // game variables
 const keys = {}
 const platforms = []
