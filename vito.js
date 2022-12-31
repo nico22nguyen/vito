@@ -1,108 +1,67 @@
-/** 
- * TODO:
- * - add score at top of screen (increments after reaching top of level)
- * - add portal on the top platform (end of level, increment score, regenerate platforms/clouds)
- * - sky color darkens progressively each level, draw stars starting at a dark enough level (e.g. 5)
- * - kill vito if he falls more than N (5?) platforms (reset score, regenerate platforms/clouds)
- * - make the canvas scale-able and match the window size
- * 
- * TRY OUT: 
- * - reduced map size on the x axis (e.g. 800-1000 units)
-*/
+class Vito {
+  constructor(x, y) {
+    this.x = x
+    this.y = y
+    this.yVelocity = 0
+    this.direction = 1
+  }
 
-// game variables
-const keys = {}
-const platforms = []
-const cloudLevels = []
-let unitDirection = 1
-let yVelocity = 0
-let xPosition = 0
-let yPosition = 0
-
-const adjustY = () => {
-  // can't go below the ground
-	if (yPosition < 0) {
-		yPosition = 0
-    yVelocity = 0
-    return
-	}
+  adjustY = () => {
+    // can't go below the ground
+    if (this.y < 0) {
+      this.y = 0
+      this.yVelocity = 0
+      return
+    }
+    
+    // only apply gravity if vito is above the ground
+    this.yVelocity += Math.min(GRAVITY_FORCE, MAX_FALL_SPEED)
   
-  // only apply gravity if vito is above the ground
-	yVelocity += Math.min(GRAVITY_FORCE, MAX_FALL_SPEED)
-
-  // if vito is moving upwards, no platform logic needed
-  if (yVelocity > 0) {
-    yPosition += yVelocity
-    return
-  }
-
-  // If vito is touching a platform, stop y velocity or jump if key is pressed
-  const intersectingPlatform = platformCheck(xPosition, yPosition)
-  if (intersectingPlatform) {
-    yVelocity = keys['UP'] ? JUMP_POWER : 0
-    yPosition = intersectingPlatform.y
-    return
-  }
-
-  // if applying velocity would skip vito past the next platform, land him on the platform
-  const nextPlatform = getNextPlatform(yPosition)
-  const nextPosition = yPosition + yVelocity
-
-  if (nextPosition <= 0 || (nextPosition <= nextPlatform?.y && xAlignsWithPlatform(xPosition, nextPlatform))) {
-    yVelocity = keys['UP'] ? JUMP_POWER : 0
-    yPosition = nextPlatform.y
-    return
-  }
-
-  // otherwise, apply velocity
-  yPosition += yVelocity
-}
-
-const adjustX = () => {
-  // "do nothing" cases
-  if (keys['RIGHT'] && keys['LEFT']) return // both pressed
-  if (!keys['RIGHT'] && !keys['LEFT']) return // none pressed
- 
-  // want to go left, but at wall
-	if (keys['LEFT'] && xPosition < -OUT_OF_BOUNDS + HAT_JUT + WALL_THICKNESS + X_VELOCITY) {
-    xPosition = -OUT_OF_BOUNDS + WALL_THICKNESS + HAT_JUT
-    return
-  }
-
-  // want to go right, but at wall
-	if (keys['RIGHT'] && xPosition > OUT_OF_BOUNDS - HAT_JUT - X_VELOCITY) {
-    xPosition = OUT_OF_BOUNDS - HAT_JUT
-    return
-  }
-
-  xPosition += X_VELOCITY * unitDirection
-}
-
-const tick = (context) => {
-  adjustY()
-  adjustX()
-
-  // background moves in the opposite direction of vito, hence -x
-	drawBackground(-xPosition, yPosition, context)
-  updateCloudPositions()
-	drawVito(SCREEN_WIDTH / 2, 0, unitDirection, context)
-}
-
-const run = () => {
-  const canvas = document.getElementById('canvas')
-  canvas.width = SCREEN_WIDTH
-  canvas.height = SCREEN_HEIGHT
-
-  const context = canvas.getContext('2d')
-
-  document.addEventListener('keydown', handleKeyDown)
-  document.addEventListener('keyup', handleKeyUp)
+    // if vito is moving upwards, no platform logic needed
+    if (this.yVelocity > 0) {
+      this.y += this.yVelocity
+      return
+    }
   
-  populatePlatforms()
-  generateClouds()
+    // If vito is touching a platform, stop y velocity or jump if key is pressed
+    const intersectingPlatform = platformCheck(this.x, this.y)
+    if (intersectingPlatform) {
+      this.yVelocity = keys['UP'] ? JUMP_POWER : 0
+      this.y = intersectingPlatform.y
+      return
+    }
+  
+    // if applying velocity would skip vito past the next platform, land him on the platform
+    const nextPlatform = getNextPlatform(this.y)
+    const nextPosition = this.y + this.yVelocity
+  
+    if (nextPosition <= 0 || (nextPosition <= nextPlatform?.y && xAlignsWithPlatform(this.x, nextPlatform))) {
+      this.yVelocity = keys['UP'] ? JUMP_POWER : 0
+      this.y = nextPlatform.y
+      return
+    }
+  
+    // otherwise, apply velocity
+    this.y += this.yVelocity
+  }
 
-  const _tick = () => tick(context)
-  const game = setInterval(_tick, 1000 / FPS)
+  adjustX = () => {
+    // "do nothing" cases
+    if (keys['RIGHT'] && keys['LEFT']) return // both pressed
+    if (!keys['RIGHT'] && !keys['LEFT']) return // none pressed
+   
+    // want to go left, but at wall
+    if (keys['LEFT'] && this.x < -OUT_OF_BOUNDS + HAT_JUT + WALL_THICKNESS + X_VELOCITY) {
+      this.x = -OUT_OF_BOUNDS + WALL_THICKNESS + HAT_JUT
+      return
+    }
+  
+    // want to go right, but at wall
+    if (keys['RIGHT'] && this.x > OUT_OF_BOUNDS - HAT_JUT - X_VELOCITY) {
+      this.x = OUT_OF_BOUNDS - HAT_JUT
+      return
+    }
+  
+    this.x += X_VELOCITY * this.direction
+  }
 }
-
-run()

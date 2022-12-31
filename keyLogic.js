@@ -9,8 +9,8 @@ const handleKeyDown = (event) => {
   if (!keys['LEFT'] || !keys['RIGHT']) {
 
     // handle x direction changes
-    if (direction === 'LEFT') unitDirection = -1
-    else if (direction === 'RIGHT') unitDirection = 1
+    if (direction === 'LEFT') vito.direction = -1
+    else if (direction === 'RIGHT') vito.direction = 1
   }
 
 }
@@ -24,6 +24,6 @@ const handleKeyUp = (event) => {
   if (direction === 'UP') return
 
   // if the other direction key is held, switch velocity immediately 
-  if (keys['LEFT']) unitDirection = -1
-  if (keys['RIGHT']) unitDirection = 1
+  if (keys['LEFT']) vito.direction = -1
+  if (keys['RIGHT']) vito.direction = 1
 }
