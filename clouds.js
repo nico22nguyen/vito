@@ -28,12 +28,11 @@ const updateCloudPositions = () => {
   cloudLevels.forEach((cloud, i) => {
     cloud.x += cloud.velocity
     const displacement = Math.abs(cloud.xInitial - cloud.x)
-    if (i === 0) console.log('displacement', displacement, 'xSpacing', cloud.xSpacing)
+    
     if (displacement >= cloud.xSpacing) {
       const offset = displacement - cloud.xSpacing
       cloud.x = cloud.xInitial + offset
       cloud.yVariationSchedule.unshift(cloud.yVariationSchedule.pop())
-      if (i === 0) console.log('reset')
     }
   })
 }
