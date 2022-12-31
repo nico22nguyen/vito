@@ -14,11 +14,10 @@
 const keys = {}
 const platforms = []
 const cloudLevels = []
-let xVelocityMultiplier = 1
+let unitDirection = 1
 let yVelocity = 0
 let xPosition = 0
 let yPosition = 0
-let direction = 'RIGHT'
 
 const adjustY = () => {
   // can't go below the ground
@@ -49,7 +48,7 @@ const adjustY = () => {
   const nextPlatform = getNextPlatform(yPosition)
   const nextPosition = yPosition + yVelocity
 
-  if (nextPosition <= 0 || (nextPosition <= nextPlatform?.y && xIntersectingPlatform(xPosition, nextPlatform))) {
+  if (nextPosition <= 0 || (nextPosition <= nextPlatform?.y && xAlignsWithPlatform(xPosition, nextPlatform))) {
     yVelocity = keys['UP'] ? JUMP_POWER : 0
     yPosition = nextPlatform.y
     return
@@ -76,7 +75,7 @@ const adjustX = () => {
     return
   }
 
-  xPosition += X_VELOCITY * xVelocityMultiplier
+  xPosition += X_VELOCITY * unitDirection
 }
 
 const tick = (context) => {
@@ -86,7 +85,7 @@ const tick = (context) => {
   // background moves in the opposite direction of vito, hence -x
 	drawBackground(-xPosition, yPosition, context)
   updateCloudPositions()
-	drawVito(SCREEN_WIDTH / 2, 0, xVelocityMultiplier, context)
+	drawVito(SCREEN_WIDTH / 2, 0, unitDirection, context)
 }
 
 const run = () => {
